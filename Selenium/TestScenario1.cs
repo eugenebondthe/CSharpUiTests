@@ -12,8 +12,8 @@ namespace Selenium
         private readonly By _loginInputField = By.XPath("//*[@class='flex-grow rel']//input[@type='email']");
         private readonly By _passwordInputField = By.XPath("//input[@type='password']");
         private readonly By _finishLogInButton = By.XPath("//button[@title='Log in']");
-        private readonly By _menuButton = By.XPath("//*[@d='M64 384h384v-42.666H64V384zm0-106.666h384v-42.667H64v42.667zM64 128v42.665h384V128H64z']");
-        private readonly By _usersLogin = By.XPath("//*[@class='folder-row flex-space-between plr-l pt-s button-height']//*[@class='b align-self-center text-ellipsis']");
+        private readonly By _settingsButton = By.XPath("//button[@title='Settings']");
+        private readonly By _usersLogin = By.XPath("//div[@class='text-break selectable']");
         private readonly By _userLogout = By.XPath("//button[@title='Logout']//span[@class='icon flex-center items-center button-icon icon-large']//*[name()='svg']");
         private readonly By _finalTitle = By.XPath("//title");
 
@@ -51,24 +51,24 @@ namespace Selenium
             finishLogIn.Click();
 
             Thread.Sleep(2000);
-            var menuButton = driver.FindElement(_menuButton);
-            menuButton.Click();
+            var alertWindow = driver.FindElement(By.XPath("//div[text()='Ok']"));
+            alertWindow.Click();
 
-            //забрать строку логина в переменную
-            Assert.AreEqual(_usersLogin, _logIn, "Login is verified.");
+            Thread.Sleep(2000);
+            var settingsButton = driver.FindElement(_settingsButton);
+            settingsButton.Click();
+
+            Thread.Sleep(2000);
+            var userLogin = driver.FindElement(_usersLogin).Text;
+            Assert.AreEqual(_logIn, userLogin);
         }
 
         [Test]
         public void LogOut()
         {
-            var menuButton = driver.FindElement(_menuButton);
-            menuButton.Click();
-
             var logOut = driver.FindElement(_userLogout);
             logOut.Click();
-
-            var titleCheck = "Mail. Done. Right. Tutanota Login &amp; Sign up for an Ad-free Mailbox";
-            Assert.AreEqual(_finalTitle, titleCheck);
+            Assert.IsTrue(driver.Url == "https://mail.tutanota.com/login?noAutoLogin=true");
         }
 
         [OneTimeTearDown]
