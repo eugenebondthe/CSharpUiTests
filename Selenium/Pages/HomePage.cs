@@ -27,7 +27,7 @@ namespace Selenium.Pages
 
         public string GetLoggedInUsername()
         {
-            return GetElement(_loggedInUsername).Text.ToLower();
+            return GetElement(_loggedInUsername).Text.ToLower().Trim();
         }
 
         public void CreateNewEmailAsDraft()
@@ -60,8 +60,7 @@ namespace Selenium.Pages
 
         public IList<IWebElement> GetDraftsList()
         {
-            IList<IWebElement> all = GetElements(_mailList);
-            return all;
+            return GetElements(_mailList);
         }
 
         public bool ValidateDraftMailSave(IList<IWebElement> all)

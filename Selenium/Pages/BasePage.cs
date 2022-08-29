@@ -13,7 +13,7 @@ namespace Selenium.Pages
             _driver = driver;
         }
 
-        protected void WaitUntilElementVisible(By by)
+        protected void WaitUntilElementClickable(By by)
         {
             var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(60));
             wait.Until(ExpectedConditions.ElementToBeClickable(by));
@@ -21,25 +21,25 @@ namespace Selenium.Pages
 
         protected IWebElement GetElement(By by)
         {
-            WaitUntilElementVisible(by);
+            WaitUntilElementClickable(by);
             return _driver.FindElement(by);
         }
 
         protected IList<IWebElement> GetElements(By by)
         {
-            WaitUntilElementVisible(by);
+            WaitUntilElementClickable(by);
             return _driver.FindElements(by);
         }
 
         protected void Click(By by)
         {
-            WaitUntilElementVisible(by);
+            WaitUntilElementClickable(by);
             _driver.FindElement(by).Click();
         }
 
         protected void SendKeys(By by, string text)
         {
-            WaitUntilElementVisible(by);
+            WaitUntilElementClickable(by);
             _driver.FindElement(by).SendKeys(text);
         }
 
